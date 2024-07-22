@@ -1,0 +1,46 @@
+.auth-page {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+
+  .auth-page-form {
+    width: 70%;
+    height: 100%;
+    display: flex;
+  }
+
+  .auth-page-design {
+    width: 30%;
+    height: 100%;
+
+    .rectangle {
+      height: 100%;
+      width: 100%;
+      position: relative;
+
+      .half {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        &.top-left {
+          background: #9eb9ca;
+          clip-path: polygon(0 0, 100% 0, 0 100%);
+          left: -15px;
+        }
+
+        &.bottom-right {
+          background: #ad928e;
+          clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+
+        &.title {
+          font-size: 36px;
+          font-weight: 900;
+          position: absolute;
+          left: -45px;
+        }
+      }
+    }
+  }
+}
