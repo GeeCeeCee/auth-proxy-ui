@@ -8,7 +8,13 @@ import { AuthFormData, AuthFormProps } from "./authForm.interface";
 import { loginSchema, signupSchema } from "./schema";
 import style from "./authForm.module.scss";
 
-const AuthForm: React.FC<AuthFormProps> = ({ heading, mode, onSubmit }) => {
+const AuthForm: React.FC<AuthFormProps> = ({
+  heading,
+  mode,
+  onSubmit,
+  errorMessage,
+  isProcessing,
+}) => {
   const schema = mode === "signup" ? signupSchema : loginSchema;
   const {
     register,
@@ -39,9 +45,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ heading, mode, onSubmit }) => {
           <input type="password" id="password" {...register("password")} />
           {errors.password && <p>{errors.password.message}</p>}
         </div>
-        <button className="submit-button" type="submit">
+        <button className="submit-button" type="submit" disabled={isProcessing}>
           {mode === "signup" ? "Sign Up" : "Login"}
         </button>
+
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
       </form>
     </div>
   );

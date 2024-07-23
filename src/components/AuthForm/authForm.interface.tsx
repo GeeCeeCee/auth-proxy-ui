@@ -9,5 +9,7 @@ export interface AuthFormData {
 export interface AuthFormProps {
   heading?: string;
   mode: "signup" | "login";
+  errorMessage: string | null;
   onSubmit: SubmitHandler<AuthFormData>;
+  isProcessing: boolean;
 }
