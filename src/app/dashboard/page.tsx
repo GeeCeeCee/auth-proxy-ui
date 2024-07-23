@@ -2,32 +2,56 @@
 import React from "react";
 import style from "./dashboard.module.scss";
 import { FaUser } from "react-icons/fa";
+import HTTP from "@/utils/http";
+import { useRouter } from "next/navigation";
+import { ThreeDots } from "react-loader-spinner";
 
 const SignupPage: React.FC = () => {
-  const handleSignup = async (data: {
-    name?: string;
+  const [userDetails, setUserDetails] = React.useState<{
+    name: string;
     email: string;
-    password: string;
-  }) => {
-    try {
-      const response = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+  } | null>(null);
+  const router = useRouter();
+  const [isEmpty, setEmpty] = React.useState(true);
 
-      if (response.ok) {
-        // Handle successful signup (e.g., redirect to login page or show a success message)
-        console.log("User signed up successfully!");
-      } else {
-        // Handle error response
-        console.error("Signup failed");
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
+  React.useEffect(() => {
+    const email = localStorage.getItem("email");
+    const token = localStorage.getItem("accessToken");
+
+    if (
+      email == null ||
+      email.length === 0 ||
+      token == null ||
+      token.length === 0
+    ) {
+      router.push("/login");
+      return;
     }
+
+    console.log({ email, token });
+    const http = HTTP().get(
+      "/api/details",
+      {
+        email,
+      },
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
+    http
+      .then((response) => {
+        console.log(response);
+        setUserDetails(response.data.data);
+      })
+      .finally(() => setEmpty(false));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("email", "");
+
+    router.push("/login");
   };
 
   return (
@@ -39,14 +63,29 @@ const SignupPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="user-details">
-        <section className="title">Welcome to the Application</section>
-        <div className="user-box">
-          <FaUser className="icon" />
-          <div className="name">Gourab Chattopadhyay</div>
-          <div className="email">gourabch5@gmail.com</div>
+      {isEmpty ? (
+        <div style={{ margin: "auto" }}>
+          <ThreeDots color="#00BFFF" height={80} width={80} />
         </div>
-      </div>
+      ) : (
+        <div className="user-details">
+          <section className="title">Welcome to the Application</section>
+          <div className="user-box">
+            {!isEmpty && userDetails?.name && userDetails?.email ? (
+              <>
+                <FaUser className="icon" />
+                <div className="name">{userDetails.name}</div>
+                <div className="email">{userDetails.email}</div>
+                <div className="logout" onClick={handleLogout}>
+                  Logout
+                </div>
+              </>
+            ) : (
+              <>No User Found</>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 };

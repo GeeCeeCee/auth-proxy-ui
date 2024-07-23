@@ -10,11 +10,7 @@ const SignupPage: React.FC = () => {
   const [isProcessing, setProcessing] = React.useState(false);
   const router = useRouter();
 
-  const handleLogin = async (data: {
-    name?: string;
-    email: string;
-    password: string;
-  }) => {
+  const handleLogin = async (data: { email: string; password: string }) => {
     try {
       setProcessing(true);
       const response = await HTTP().post("/api/login", data);
@@ -25,8 +21,10 @@ const SignupPage: React.FC = () => {
         setProcessing(false);
         return;
       }
-      const { accessToken } = response.data.data;
+
+      const accessToken = response.data.data.access_token;
       localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("email", data.email);
       setErrorMessage(null);
       router.push("/dashboard");
     } catch (error) {

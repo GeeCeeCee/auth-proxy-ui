@@ -26,6 +26,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       height: fit-content;
       min-width: 560px;
+      position: relative;
 
       .icon {
         margin-bottom: 20px;
@@ -35,6 +36,14 @@
         padding-bottom: 20px;
         font-weight: 500;
         font-size: 18px;
+      }
+
+      .logout {
+        color: #9eb9ca;
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
       }
     }
   }

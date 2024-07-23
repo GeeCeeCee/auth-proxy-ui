@@ -20,17 +20,31 @@ export default async function handler(
 
     const url = `${process.env.ENDPOINT}/users`;
     const http = HTTP();
-    const response = await http.get(url, {
-      email: req.body.email,
-      password: req.body.password,
-    });
+    const { email } = req.query;
+    const auth = req.headers.authorization;
+    const token = auth?.split(" ")[1];
+    console.log(token);
+    const response = await http.get(
+      url,
+      {
+        email,
+      },
+      {},
+      token
+    );
 
-    res.status(200).json({ status: response.status, data: response.data });
+    res.status(200).json({
+      status: response.status,
+      data: {
+        name: response.data.name,
+        email: response.data.email,
+      },
+    });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({
       status: 500,
-      message: "User could not be validated",
+      message: "User details could not be retrieved",
       details: error.message ?? "",
     });
   }
