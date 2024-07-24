@@ -89,4 +89,9 @@
     text-align: center;
     margin-top: 20px;
   }
+
+  @media (max-width: 560px) {
+    min-width: 85%;
+    margin: auto;
+  }
 }

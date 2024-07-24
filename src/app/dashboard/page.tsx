@@ -28,7 +28,6 @@ const SignupPage: React.FC = () => {
       return;
     }
 
-    console.log({ email, token });
     const http = HTTP().get(
       "/api/details",
       {
@@ -41,7 +40,6 @@ const SignupPage: React.FC = () => {
 
     http
       .then((response) => {
-        console.log(response);
         setUserDetails(response.data.data);
       })
       .finally(() => setEmpty(false));

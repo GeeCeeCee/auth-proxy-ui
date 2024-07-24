@@ -19,7 +19,6 @@ const SignupPage: React.FC = () => {
       setProcessing(true);
       const response = await HTTP().post("/api/signup", data);
 
-      console.log(response.status, response.data.status);
       if (response.status !== 200 || response.data.status !== 201) {
         setErrorMessage("User could not be created.");
         setProcessing(false);
