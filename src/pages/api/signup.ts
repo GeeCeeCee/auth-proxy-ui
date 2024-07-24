@@ -26,7 +26,9 @@ export default async function handler(
       password: req.body.password,
     });
 
-    res.status(200).json({ status: response.status, data: response.data });
+    res
+      .status(response.status)
+      .json({ status: response.status, data: response.data });
   } catch (err) {
     const error = err as Error;
     res.status(500).json({

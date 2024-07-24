@@ -33,7 +33,7 @@ export default async function handler(
       token
     );
 
-    res.status(200).json({
+    res.status(response.status).json({
       status: response.status,
       data: {
         name: response.data.name,
