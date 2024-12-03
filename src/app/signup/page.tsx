@@ -19,7 +19,7 @@ const SignupPage: React.FC = () => {
       setProcessing(true);
       const response = await HTTP().post("/api/signup", data);
 
-      if (response.status !== 200 || response.data.status !== 201) {
+      if (response.status !== 201 || response.data.status !== 201) {
         setErrorMessage("User could not be created.");
         setProcessing(false);
         return;
@@ -51,7 +51,6 @@ const SignupPage: React.FC = () => {
         <div className="rectangle">
           <div className="half top-left"></div>
           <div className="half bottom-right"></div>
-          {/* <div className="half title">Awesome Application</div> */}
         </div>
       </div>
     </section>
